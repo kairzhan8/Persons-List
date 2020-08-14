@@ -24,6 +24,8 @@ class ViewController: UITableViewController {
         for _ in 1...8 {
             persons.insert(Person(name: names.randomElement()!, surname: surnames.randomElement()!, email: emails.randomElement()!, phone: phones.randomElement()!))
         }
+        
+        navigationItem.leftBarButtonItem = editButtonItem
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -38,6 +40,16 @@ class ViewController: UITableViewController {
         cell.textLabel?.text = "\(indexedPersons[indexPath.row].name) \(indexedPersons[indexPath.row].surname)"
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        var indexedPersons = Array(persons)
+        let currentPerson = indexedPersons.remove(at: sourceIndexPath.row)
+        indexedPersons.insert(currentPerson, at: destinationIndexPath.row)
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
